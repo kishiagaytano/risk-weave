@@ -22,3 +22,17 @@ candidates for 97.3% of applicants (predicted-PD correlation 0.995) at both
 cutoffs, so they are near-duplicates in expectation; `clean` is preferred because
 it removes fields that could be proxies or post-decision information at no
 measurable accuracy cost.
+
+## Format fix before any upload (2026-10-28)
+
+The first candidate files wrote `LOAN_ID` as floats (for example `264002.0`)
+because SAS numerics arrive as floats. They were never uploaded. `submission.build`
+now writes integer IDs and `submission.validate` requires integer-typed IDs
+(`test_submission_ids_are_written_as_integers`). The files were regenerated from the
+saved predictions (no refit) and re-downloaded. Checks on the downloaded files:
+header `LOAN_ID,APPROVED`, 100,000 rows, unique integer IDs, only 0/1 values.
+
+| File | Rows | Approval rate | Public LB ($M) |
+|---|---|---|---|
+| cand_clean_t07.csv | 100,000 | 43.98% | pending (uploaded by Kish) |
+| cand_clean_t12.csv | 100,000 | 62.55% | pending (uploaded by Kish) |
