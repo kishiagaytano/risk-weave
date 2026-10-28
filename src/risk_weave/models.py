@@ -8,11 +8,11 @@ from .config import SEED
 from .features import make_preprocessor
 
 
-def logreg(X, C=0.1, penalty="l2", class_weight=None):
+def logreg(X, C=0.1, penalty="l2", class_weight=None, spline_knots=0):
     kw = {"penalty": "l1", "solver": "liblinear"} if penalty == "l1" else {}
     est = LogisticRegression(C=C, max_iter=2000, class_weight=class_weight,
                              random_state=SEED, **kw)
-    return Pipeline([("prep", make_preprocessor(X, scale=True)), ("model", est)])
+    return Pipeline([("prep", make_preprocessor(X, scale=True, spline_knots=spline_knots)), ("model", est)])
 
 
 def xgboost(X, **params):

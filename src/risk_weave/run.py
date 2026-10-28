@@ -7,6 +7,7 @@ from .experiment_log import log_experiment
 EXPERIMENTS = {
     "lr_primary": dict(model="logreg", feature_set="primary", params=dict(C=0.1)),
     "lr_no_rate": dict(model="logreg", feature_set="no_rate", params=dict(C=0.1)),
+    "lr_spline": dict(model="logreg", feature_set="primary", params=dict(C=0.05, spline_knots=5)),
     "xgb_primary": dict(model="xgboost", feature_set="primary", params={}),
     "xgb_no_rate": dict(model="xgboost", feature_set="no_rate", params={}),
     "xgb_no_proxy": dict(model="xgboost", feature_set="no_proxy", params={}),

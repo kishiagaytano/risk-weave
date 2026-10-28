@@ -12,6 +12,8 @@ def test_feature_sets_exclude_sensitive(synthetic):
     assert not set(config.SENSITIVE_EXCLUDED) & set(primary)
     assert "LOAN_ID" not in primary and "DEFAULT" not in primary
     assert "INTEREST_RATE" not in config.feature_columns(cols, "no_rate")
+    assert "INTEREST_RATE" not in config.feature_columns(cols, "clean")
+    assert "PREVIOUS_DENIAL_FLAG" not in config.feature_columns(cols, "clean")
     assert set(config.SENSITIVE_EXCLUDED) <= set(config.feature_columns(cols, "with_sensitive"))
     with pytest.raises(ValueError):
         config.feature_columns(cols, "bogus")
@@ -74,3 +76,14 @@ def test_sample_files_schema_if_present():
         pytest.skip("local sample files not present")
     a = data.audit(data.load_csv(tr), data.load_csv(sc))
     assert a["schema_diff"] == ["DEFAULT"] and a["id_overlap"] == 0
+
+
+def test_final_candidate_format(synthetic):
+    from risk_weave import final
+    train = synthetic.iloc[:2000]
+    score = synthetic.iloc[2000:2400].drop(columns=["DEFAULT"])
+    members = [("logreg", dict(C=0.1)), ("xgboost", dict(max_depth=2, n_estimators=40))]
+    p, parts = final.fit_predict(train, score, "no_rate", members)
+    assert p.shape == (len(score),) and len(parts) == 2
+    sub = final.candidate(score, p, 0.2)
+    assert list(sub.columns) == ["LOAN_ID", "APPROVED"] and len(sub) == len(score)

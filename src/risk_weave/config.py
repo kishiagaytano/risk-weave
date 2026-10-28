@@ -41,6 +41,7 @@ def feature_columns(all_columns, feature_set="primary"):
     no_rate          : primary without INTEREST_RATE
     no_proxy         : primary without PROXY_CANDIDATES
     no_timing        : primary without TIMING_UNCERTAIN
+    clean            : primary without INTEREST_RATE, PROXY_CANDIDATES and TIMING_UNCERTAIN
     with_sensitive   : primary plus the sensitive columns (analysis only)
     """
     drop = {ID_COL, TARGET}
@@ -52,6 +53,8 @@ def feature_columns(all_columns, feature_set="primary"):
         drop |= set(PROXY_CANDIDATES)
     elif feature_set == "no_timing":
         drop |= set(TIMING_UNCERTAIN)
+    elif feature_set == "clean":
+        drop |= {PRICING_FIELD} | set(PROXY_CANDIDATES) | set(TIMING_UNCERTAIN)
     elif feature_set not in ("primary", "with_sensitive"):
         raise ValueError(f"unknown feature set {feature_set!r}")
     return [c for c in all_columns if c not in drop]
