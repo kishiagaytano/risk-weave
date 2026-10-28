@@ -129,3 +129,15 @@ falls or stays flat, so a 0.30 cutoff is expected to add at most a fraction of a
 over 0.25 and could lose about one point. A cand_clean_t30.csv file (approval 88.5% on
 the scoring table) exists in VFL (not downloaded, not uploaded). 0.25 is already within
 about 1% of the estimated optimum.
+
+## Probe files prepared for the next submission day (not yet uploaded)
+
+| File | Rule | Approval | Predicted public score |
+|---|---|---|---|
+| cand_clean_rule50.csv | per-loan expected profit, gain = total interest, loss = 50% of loan, clean-model PD | 82.47% | about 54.4-54.6 |
+| cand_clean_t28.csv | single PD cutoff 0.28, clean model | 87.03% | about 54.0-54.5 (flat vs 0.25) |
+
+Both were downloaded to the user's Downloads folder and validated (header
+`LOAN_ID,APPROVED`, 100,000 unique integer IDs, 0/1 only). Plan: upload rule50 first,
+then t28; stop there. Final selection (up to 2) is Kish's choice; suggested:
+cand_clean_t25 plus the better of rule50 and t28.
