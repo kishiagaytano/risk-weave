@@ -34,5 +34,17 @@ header `LOAN_ID,APPROVED`, 100,000 rows, unique integer IDs, only 0/1 values.
 
 | File | Rows | Approval rate | Public LB ($M) |
 |---|---|---|---|
-| cand_clean_t07.csv | 100,000 | 43.98% | pending (uploaded by Kish) |
-| cand_clean_t12.csv | 100,000 | 62.55% | pending (uploaded by Kish) |
+| cand_clean_t07.csv | 100,000 | 43.98% | lower than t12; exact value not yet reported |
+| cand_clean_t12.csv | 100,000 | 62.55% | 47.159 (public rank 56 at the time) |
+
+## Public leaderboard results (reported by Kish, uploaded by Kish)
+
+- cand_clean_t12 (cutoff 0.12): public score 47.159, rank 56 at that time.
+- cand_clean_t07 (cutoff 0.07): scored lower than t12; exact value not yet reported.
+
+Reading: the more permissive cutoff earned more. The public metric moves with the
+profit assumption, and this agrees with the "total interest" scenarios in
+`experiment-log.md`, where the best cutoffs lie between 0.12 and 0.38 and 0.07 is the
+most defensive choice. The leaderboard is used only as additional evidence about the
+hidden formula, together with the cross-validated scenario table, not on its own.
+Next probes to consider (not yet uploaded): cutoffs 0.16, 0.20, 0.25.
