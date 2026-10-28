@@ -71,6 +71,11 @@ activation codes, personal contact details, and restricted competition data out
 of version control. Sample data may be committed only if its license and the
 competition rules allow it.
 
+For competition instructions, files, scoring details, and updates, use the
+[SAS Hackathon 2026 Kaggle overview](https://www.kaggle.com/competitions/sas-hackathon-2026/overview)
+as the starting point. Visit that page and any subsequent linked or opened tabs
+when more current or detailed information is needed.
+
 ## Name rationale
 
 “Risk Weave” is intentionally more specific and uncommon than a generic
