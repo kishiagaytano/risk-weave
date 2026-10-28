@@ -156,3 +156,42 @@ no calibration or profit policy. They confirm the same ordering as the Python wo
 concentrated in revolving utilisation, debt-to-income, missed payments and down
 payment (top Model Studio importances). The Python ensemble remains the
 candidate; Model Studio is the documented reference baseline.
+
+## Per-loan expected-profit rule vs a single cutoff (analysis, 2026-10-28)
+
+Question: after the public scores (best 54.290 at cutoff 0.25, rank 26; leader 55.092),
+does approving each loan when `(1 - PD) x gain_i > PD x loss_i` beat one global PD
+cutoff? Here gain_i = total scheduled interest (`MONTHLY_PAYMENT x LOAN_TERM -
+LOAN_AMOUNT`) and loss_i = fraction x `LOAN_AMOUNT`, the scenario that matched the public
+scores. `LOAN_AMOUNT`, `LOAN_TERM`, `MONTHLY_PAYMENT` are used only in the decision
+rule, not as model inputs. Clean-ensemble out-of-fold PD; profit in $M over 100K loans.
+
+| Rule built with loss fraction | Approval (OOF) | profit if true loss = 0.40 | 0.45 | 0.50 | 0.55 |
+|---|---|---|---|---|---|
+| 0.40 | 86.8% | 135.1 | 127.4 | 119.6 | 111.9 |
+| 0.45 | 84.5% | 135.0 | 127.9 | 120.7 | 113.5 |
+| 0.50 | 82.3% | 134.3 | 127.6 | 121.0 | 114.3 |
+| 0.55 | about 80% | 133.1 | 126.9 | 120.7 | 114.5 |
+| best single cutoff (tuned per true loss) | about 0.26-0.29 | 134.5 | 127.0 | about 120.8 | about 114.3 |
+
+- Gain of the per-loan rule over the best single cutoff is tiny: about +0.2 on 121
+  (0.2%) when the loss fraction is guessed right, and a mismatch of 0.05 costs
+  at most about 0.3-0.5. It is not the missing 1.5% to the leader. Predicted public
+  score for the loss-0.5 rule with the fitted factor (0.443-0.450): about 54.4-54.6
+  (cutoff 0.25 gave 54.290); approval on the scoring table 82.5%.
+- Calibration where the decision matters is good (predicted vs observed default):
+  0.15-0.20: 0.173 vs 0.171; 0.20-0.25: 0.223 vs 0.235; 0.25-0.30: 0.274 vs 0.277;
+  0.30-0.35: 0.324 vs 0.323; 0.35-0.40: 0.374 vs 0.356; above 0.40: 0.546 vs 0.551.
+- Feature choices barely move profit: at loss 0.5 the best single-cutoff profit is
+  about 120.3-120.6 for the clean, no-rate and with-sensitive models and 120.2 for the
+  with-rate ensemble (AUC 0.7987-0.8003), i.e. within 0.3%. Excluded variables
+  therefore cost almost nothing and are not the reason for the gap.
+- Group approval rates of the loss-0.5 rule differ by group as before (state tier H
+  about 0.89 vs L lower; race and employment groups differ moderately); no
+  group-level correction was applied.
+- Noise: the standard deviation of a ~45K-loan public profit sum is about 1.0 ($M) for
+  one policy, so a 0.8 gap to the leader is within what the public/private sampling
+  alone can produce; only part of it cancels when two policies share loans.
+- Candidate file `cand_clean_rule50.csv` (per-loan rule, loss 0.5, clean model,
+  approval 82.47%, 100,000 unique integer IDs) was generated in VFL; not downloaded,
+  not uploaded.
