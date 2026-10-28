@@ -2,8 +2,10 @@
 
 ## Project identity
 
-**Repository name:** `risk-weave`  
-**Challenge:** SAS Hackathon 2026 Student Track  
+**Repository name:** `risk-weave`
+
+**Challenge:** SAS Hackathon 2026 Student Track
+
 **Business setting:** iLink Capital Bank auto-loan credit approval
 
 Risk Weave is a credit-risk modeling and decisioning project. Its purpose is to
