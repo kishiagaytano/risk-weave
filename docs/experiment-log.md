@@ -110,3 +110,24 @@ Approved-loan default rates are similar across groups (calibration holds), but
 approval rates differ: Black applicants 0.39 vs White 0.46 (ratio about 0.84) and
 state tier L 0.31 vs H 0.56 (ratio about 0.55). These gaps reflect genuine
 default-rate differences in the data; they are reported, not corrected.
+
+## Sensitivity: proxy and timing fields, and the `clean` feature set
+
+| Run | Columns | AUC (raw OOF) | Logloss |
+|---|---|---|---|
+| xgb_primary (reference) | 76 | 0.7977 | 0.3215 |
+| xgb_no_proxy (14 proxy-capable fields removed) | 62 | 0.7975 | 0.3216 |
+| xgb_no_timing (PREVIOUS_*/CREDIT_BUILDER/CREDIT_MONITORING removed) | 72 | 0.7979 | 0.3215 |
+| xgb_d3_clean | 57 | 0.7975 | 0.3215 |
+| xgb_d2_clean / lr_clean | 57 | about 0.798 / about 0.797 | recorded in `~/rw/experiment_log.jsonl` |
+| **clean ensemble (LR + XGB d2 + XGB d3, raw mean)** | 57 | **0.7987** (PR-AUC 0.425) | - |
+
+Removing the proxy-capable and timing-uncertain fields costs at most 0.0002 AUC,
+so they carry no measurable signal here. The `clean` ensemble loses about 0.001
+AUC against the `no_rate` ensemble (0.7987 vs 0.800) and keeps the same policy
+profile (approval 32.7% / 43.7% / 56.3% at t = 0.05 / 0.07 / 0.12; profit table
+within about 1 percentage point of the `no_rate` ensemble). Group outcomes at
+t=0.07 are unchanged (approval: White .46, Asian .46, Hispanic .42, Black .38;
+state tier H .57, L .31). Final-fit predictions of the two ensembles on the scoring
+table correlate at 0.995 and give identical decisions for 97.3% of applicants.
+**Recommended feature set for the final model: `clean`.**

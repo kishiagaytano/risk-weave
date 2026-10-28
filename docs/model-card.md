@@ -29,6 +29,13 @@ probability of default (PD); the policy approves when PD is below a cutoff.
   `PREVIOUS_*` and relationship flags were kept but are untested for timing
   leakage (a `no_timing` set exists, not yet run).
 
+## Recommended update (feature set `clean`)
+Sensitivity runs (experiment log) show that removing the 14 proxy-capable fields
+and the 4 timing-uncertain flags costs at most 0.0002 AUC. The recommended final
+model therefore uses the `clean` feature set (57 columns; also excludes the five
+sensitive columns and `INTEREST_RATE`). The `no_rate` description below remains
+valid for the v1 candidates.
+
 ## Model
 Equal-weight average of three models trained on all labelled rows: L2 logistic
 regression (C=0.1); XGBoost depth 2 (800 trees, learning rate 0.05); XGBoost depth
