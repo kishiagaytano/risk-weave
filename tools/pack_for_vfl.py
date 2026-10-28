@@ -16,7 +16,7 @@ from pathlib import Path
 # SAS wraps very long source lines, so the blob sits in a triple-quoted string
 # (newlines are ignored by b64decode).
 ORDER = ["__init__", "config", "data", "features", "models", "metrics", "cv",
-         "policy", "submission", "experiment_log", "run"]
+         "policy", "submission", "experiment_log", "run", "final"]
 BOOT = '''
 import sys, types
 _mods = json.loads(_SRC)
@@ -37,7 +37,7 @@ def pack(driver):
     return f"import zlib,base64;exec(zlib.decompress(base64.b64decode('''{blob}''')).decode())"
 
 
-def pack_install(dest="~/rw", chunk=1500):
+def pack_install(dest="~/rw", chunk=1500, only=None):
     """Statements that write the package to ``dest`` on the compute server.
 
     Returned as several short lines (one string variable per chunk): SAS wraps
@@ -45,7 +45,8 @@ def pack_install(dest="~/rw", chunk=1500):
     literal cannot be typed reliably. Later runs need only a short sys.path line.
     """
     root = Path(__file__).resolve().parents[1] / "src" / "risk_weave"
-    mods = {f"{n}.py": (root / f"{n}.py").read_text(encoding="utf-8") for n in ORDER}
+    mods = {f"{n}.py": (root / f"{n}.py").read_text(encoding="utf-8")
+            for n in ORDER if only is None or n in only}
     blob = base64.b64encode(zlib.compress(json.dumps(mods).encode("utf-8"), 9)).decode()
     parts = [blob[i:i + chunk] for i in range(0, len(blob), chunk)]
     lines = [f"b{k}='{part}'" for k, part in enumerate(parts)]
@@ -62,6 +63,7 @@ def pack_install(dest="~/rw", chunk=1500):
 
 if __name__ == "__main__":
     if sys.argv[1] == "--install":
-        print(pack_install())
+        # optional second argument: comma-separated module names to refresh only
+        print(pack_install(only=sys.argv[2].split(",") if len(sys.argv) > 2 else None))
     else:
         print(pack(sys.argv[1]))
