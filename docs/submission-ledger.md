@@ -34,17 +34,34 @@ header `LOAN_ID,APPROVED`, 100,000 rows, unique integer IDs, only 0/1 values.
 
 | File | Rows | Approval rate | Public LB ($M) |
 |---|---|---|---|
-| cand_clean_t07.csv | 100,000 | 43.98% | lower than t12; exact value not yet reported |
+| cand_clean_t07.csv | 100,000 | 43.98% | 34.812 |
 | cand_clean_t12.csv | 100,000 | 62.55% | 47.159 (public rank 56 at the time) |
 
 ## Public leaderboard results (reported by Kish, uploaded by Kish)
 
 - cand_clean_t12 (cutoff 0.12): public score 47.159, rank 56 at that time.
-- cand_clean_t07 (cutoff 0.07): scored lower than t12; exact value not yet reported.
+- cand_clean_t07 (cutoff 0.07): public score 34.812.
 
 Reading: the more permissive cutoff earned more. The public metric moves with the
 profit assumption, and this agrees with the "total interest" scenarios in
 `experiment-log.md`, where the best cutoffs lie between 0.12 and 0.38 and 0.07 is the
 most defensive choice. The leaderboard is used only as additional evidence about the
 hidden formula, together with the cross-validated scenario table, not on its own.
-Next probes to consider (not yet uploaded): cutoffs 0.16, 0.20, 0.25.
+
+Comparison with the cross-validated scenario table (profit in $M over all 100K
+training loans, `experiment-log.md`):
+
+| Cutoff | Observed public | tot, LGD 0.3 | tot, LGD 0.5 | tot, LGD 0.7 |
+|---|---|---|---|---|
+| 0.07 | 34.812 | 85.5 | 78.9 | 72.4 |
+| 0.12 | 47.159 | 119.8 | 106.4 | 93.0 |
+| ratio 0.12 / 0.07 | 1.355 | 1.401 | 1.348 | 1.285 |
+
+The observed ratio 1.355 is closest to the "total interest gain, loss about half the
+principal" scenario (1.348); the absolute level then implies the public split is
+about 44% of the profit scale (observed / 106.4). This is a two-point fit, so it is
+suggestive only: it cannot separate LGD 0.4-0.5 from other formula shapes. Under that
+scenario the profit curve is nearly flat between cutoffs 0.15 and 0.25 and peaks near
+0.2-0.25, so the next probes to consider (not yet uploaded) are 0.20 and 0.25, with
+0.16 as a cautious step. The CV scenario table, not the leaderboard alone, drives the
+final choice.
