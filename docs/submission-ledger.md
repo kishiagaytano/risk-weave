@@ -115,3 +115,17 @@ In that region the CV curve peaks around 0.25-0.30 and is flat within about 1%, 
 cutoffs of 0.25 and a bit above (for example 0.28-0.30) are close to optimal; the
 gain left to harvest is small (under 1 point). cand_clean_t16.csv (approval 72.10%)
 was also downloaded and validated; no submissions remain today.
+
+## Fine cutoff check around the peak (clean ensemble OOF profit, $M, gain = total interest)
+
+| LGD | 0.20 | 0.22 | 0.25 | 0.28 | 0.30 | 0.32 | 0.35 |
+|---|---|---|---|---|---|---|---|
+| 0.4 | 131.4 | 132.9 | 134.1 | 134.5 | 134.5 | 134.0 | 133.7 |
+| 0.45 | 125.6 | 126.6 | 127.0 | 126.8 | 126.4 | 125.9 | 124.8 |
+| 0.5 | 119.8 | 120.2 | about 120.8 | about 120 | 118.3 | about 117 | 115.8 |
+
+For an effective loss rate between 0.4 and 0.5 the curve peaks at 0.25-0.28 and then
+falls or stays flat, so a 0.30 cutoff is expected to add at most a fraction of a point
+over 0.25 and could lose about one point. A cand_clean_t30.csv file (approval 88.5% on
+the scoring table) exists in VFL (not downloaded, not uploaded). 0.25 is already within
+about 1% of the estimated optimum.
