@@ -65,3 +65,26 @@ scenario the profit curve is nearly flat between cutoffs 0.15 and 0.25 and peaks
 0.2-0.25, so the next probes to consider (not yet uploaded) are 0.20 and 0.25, with
 0.16 as a cautious step. The CV scenario table, not the leaderboard alone, drives the
 final choice.
+
+## Scenario calibration from the two public scores (clean ensemble, OOF profit in $M)
+
+Profit of the clean ensemble on the 100K training loans, gain = total scheduled
+interest, loss = LGD x LOAN_AMOUNT:
+
+| LGD | 0.07 | 0.12 | 0.16 | 0.20 | 0.25 | 0.30 | 0.35 |
+|---|---|---|---|---|---|---|---|
+| 0.3 | 85.1 | 119.7 | 134.4 | 143.0 | 148.1 | 150.7 | 151.6 |
+| 0.4 | 81.8 | 113.3 | 125.2 | 131.4 | 134.1 | 134.5 | 133.7 |
+| 0.5 | 78.6 | 106.4 | 116.0 | 119.8 | 120.8 | 118.3 | 115.8 |
+| 0.7 | 72.1 | 93.0 | 97.5 | 96.7 | 91.9 | 85.9 | 80.0 |
+
+With LGD 0.5, public score / OOF profit is 34.812 / 78.6 = 0.4429 at cutoff 0.07
+and 47.159 / 106.4 = 0.4432 at cutoff 0.12: the same scale factor, which is what a
+correct formula shape plus a fixed public share of the data should give (LGD 0.4
+and 0.7 do not match the ratio: 1.385 and 1.29 vs observed 1.355). Predicted public
+scores under that fit (0.443 x profit): cutoff 0.16 about 51.4, 0.20 about 53.1,
+0.25 about 53.5, 0.30 about 52.4. This is a fit to two points and must be confirmed
+by the next probe; the CV table remains the basis for the final choice.
+
+Candidate files generated in VFL from the saved clean predictions (not downloaded,
+not uploaded): cutoff 0.16 (approval 72.1%), 0.20 (78.6%), 0.25 (84.4%).
