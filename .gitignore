@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Restricted competition data: never commit (see AGENTS.md)
+ilink_creditrisk_*.csv
+metadata.csv
+sample_submission.csv
+*.sas7bdat
+data/
+reports/oof/
+reports/submissions/
