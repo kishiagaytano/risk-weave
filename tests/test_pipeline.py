@@ -87,3 +87,17 @@ def test_final_candidate_format(synthetic):
     assert p.shape == (len(score),) and len(parts) == 2
     sub = final.candidate(score, p, 0.2)
     assert list(sub.columns) == ["LOAN_ID", "APPROVED"] and len(sub) == len(score)
+
+
+def test_submission_ids_are_written_as_integers(tmp_path):
+    ids = [264002.0, 86907.0]
+    sub = submission.build(ids, [0, 1])
+    assert submission.validate(sub, ids)
+    out = tmp_path / "s.csv"
+    sub.to_csv(out, index=False)
+    assert out.read_text().splitlines() == ["LOAN_ID,APPROVED", "264002,0", "86907,1"]
+    with pytest.raises(ValueError):
+        submission.build([1.5], [1])
+    floaty = sub.copy(); floaty["LOAN_ID"] = floaty["LOAN_ID"].astype(float)
+    with pytest.raises(ValueError):
+        submission.validate(floaty, ids)
