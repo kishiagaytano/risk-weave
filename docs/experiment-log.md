@@ -131,3 +131,28 @@ t=0.07 are unchanged (approval: White .46, Asian .46, Hispanic .42, Black .38;
 state tier H .57, L .31). Final-fit predictions of the two ensembles on the scoring
 table correlate at 0.995 and give identical decisions for 97.3% of applicants.
 **Recommended feature set for the final model: `clean`.**
+
+## Model Studio baseline (comparison only)
+
+Project `RiskWeave_Baseline` in SAS Model Studio (VFL, My Folder) on
+`CREDITr.ILINK_CREDITRISK_TRAINING`. Target `DEFAULT`; the 25 fields of the
+`clean` exclusion (five sensitive columns, `INTEREST_RATE`, 14 proxy-capable
+fields, 4 timing-uncertain flags, plus `STATE` which Model Studio rejects by
+default; `LOAN_ID` as ID) have role Rejected. Pipeline: Data -> Gradient Boosting
+and Logistic Regression (stepwise), default settings, default Model Studio
+partition; Model Comparison selects by KS on the Test partition (10,000 rows,
+cutoff 0.50).
+
+| Model | KS (Youden) | Accuracy | F1 at 0.50 |
+|---|---|---|---|
+| Gradient Boosting (champion) | 0.3686 | 0.8652 | 0 (no applicant scored above 0.50) |
+| Logistic Regression (stepwise) | 0.3615 | 0.8732 | 0.2134 |
+
+These numbers are not directly comparable with the Python cross-validation: they
+use a single 10K test split, Youden KS at a 0.50 cutoff, untuned defaults (the
+default gradient-boosting early stopping optimises misclassification rate), and
+no calibration or profit policy. They confirm the same ordering as the Python work
+(boosting and logistic regression about equal) and that the signal is
+concentrated in revolving utilisation, debt-to-income, missed payments and down
+payment (top Model Studio importances). The Python ensemble remains the
+candidate; Model Studio is the documented reference baseline.
