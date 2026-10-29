@@ -227,3 +227,30 @@ decision rule is already near optimal for the fitted formula, so these ideas do 
 another probe. Gains that would need the excluded fields were not tested. rw/experiment_log.jsonl
 has a summary record of these runs; OOF predictions are in rw/oof (profit_reg, xgb_w, lr_w,
 xgb_fe, lr_fe).
+
+## Seed bagging and retraining (2026-10-29)
+
+Question: since XGBoost training depends on the random seed, can retraining the best model
+(clean 57-column ensemble behind cand_clean_rule50) give a higher result? Method: 5-fold OOF
+with 4 new seeds for XGB depth 2 and 3 (seeds 11-14; logistic regression is deterministic), same
+hyperparameters and folds; per-loan rule at loss 0.5.
+
+| Run | Rule profit ($M, loss 0.5) | AUC |
+|---|---|---|
+| single seed, ensemble per seed (11 / 12 / 13 / 14) | 120.90 / 120.98 / 120.87 / 120.75 | about 0.7987 |
+| original rule50 seed | 120.97 | 0.7987 |
+| 4-seed averaged ensemble | 120.9 (best cutoff 120.3; loss 0.4 / 0.6: 134.2 / 107.6) | 0.7986 |
+
+- Seed-to-seed spread of the OOF profit is about 0.2 $M (sd about 0.1), i.e. about +-0.05 on the
+  public scale (x0.45). Bagging does not improve on a single seed (120.9 vs 120.97), so retraining
+  cannot raise the expected score; the original seed sits at the favourable end of the four.
+- Final model refit on all 100K rows with 10 averaged seeds (21-30) per XGB depth plus the
+  logistic regression, in two halves of 5 seeds (a first single run hit a SAS session timeout and
+  the compute session was reset; saved files were untouched). Predicted-PD correlation with the
+  single-seed final model is 0.9996; the per-applicant sd across seeds of the XGB-d2 prediction is
+  about 0.005.
+- Per-loan rule at loss 0.5 on the scoring table: `cand_clean_rule50_bag.csv` (VFL, rw/submissions;
+  not downloaded, not uploaded): 100,000 unique integer IDs, approval 82.42% vs 82.47% for rule50.
+  616 applicants (0.62%) differ from rule50: 283 become approved, 333 become declined. Expected
+  public-score change: about 0 (+-0.1), well inside noise. Seeds are not to be chosen by public score.
+- Logged also in rw/experiment_log.jsonl and rw/oof (bag4, bag_parts_A/B, score_pd_clean_bag10).
