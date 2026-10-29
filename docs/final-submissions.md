@@ -61,6 +61,8 @@ Source: `competition-rules-and-evaluation.md` (rules as read from the Overview/E
 * **Former choice.** `t25` (public 54.290) stays as an alternate; it does not depend on any interest or loss assumption,
   so it fails differently if the hidden metric differs. Which second file to select is the participant's decision.
 
+`cand_clean_fit70m18` (formula refit, 83.51% approved, not uploaded) is an exploratory file for testing whether the refitted loss formula predicts the private score better; its expected change versus rule50 is about +-0.1 and it is not part of the proposed pair (see `submission-ledger.md`, candidate 10).
+
 ## 4. What was not selected and why
 
 | File | Public | Reason not selected |

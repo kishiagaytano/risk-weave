@@ -216,3 +216,39 @@ by B only: rule50 vs unc1 2,235 / 0 (unc1 is a strict subset of rule50); rule50 
 4,873. The scoring-side member PDs reproduce the SHA-256 of `cand_clean_rule50` exactly, so the same members and rule
 were used for the scoring file as for the submitted rule50.
 
+## Candidate 10: formula-refit rule `cand_clean_fit70m18` (2026-10-29, not uploaded)
+
+**Why.** The first eight public scores (t07, t12, t20, t25, t28, rule50, rule50_bag, unc1) were refitted against about
+40 candidate profit formulas using expected profit on the scoring file from the predicted PDs (one scale factor per
+formula, least squares). Gain = total interest in the best fits; gain = loan x interest rate fits far worse (RMS error
+about 6.8).
+
+| Loss formula (gain = total interest) | RMS error of fit ($M public scale) | Scale |
+|---|---|---|
+| 50% of the loan (the model used so far) | 0.329 | 0.447 |
+| **70% of (loan - 18 monthly payments)** | **0.162** | 0.437 |
+| 50% of (loan - 6 payments) | 0.423 | 0.424 |
+| 45% of the loan | 0.424 | - |
+
+Caveat: 8 public scores and about 40 formulas were tried, so part of the improvement is selection luck; an approval-rate
+term gave unstable coefficients and was not used. The public set is a 40% sample, so the fit uses expected profit on the
+full scoring file.
+
+**Rule.** Approve when `(1 - PD) x total interest > PD x 0.7 x max(loan - 18 x monthly payment, 0)`, same ensemble PDs as
+rule50. Built in VFL, validated, downloaded (SHA-256 in `submission-checksums.md`).
+
+| Scoring file (100,000 applicants) | Value |
+|---|---|
+| Approved | 83.51% (83,511) |
+| vs rule50 (approved by rule50 only / by fit70m18 only) | 290 / 1,332 |
+| vs t25 (t25 only / fit70m18 only) | 2,060 / 1,142 |
+| vs unc1 (unc1 only / fit70m18 only) | 13 / 3,290 |
+| Predicted public score, own formula (rule50 in brackets) | 54.57 (54.49) |
+| Predicted public score, old formula (rule50 in brackets) | 54.51 (54.60) |
+
+On the labelled training loans (out-of-fold PDs, realised outcomes) the new rule earns 123.77 $M under the refitted
+formula versus 123.62 for rule50 and 123.81 for t25 (differences of 0.1%), and 120.72 versus 120.92 for rule50 under the
+old formula. Expected change in public score is about +-0.1, far inside public noise (about 1.0), so this file is a test
+of the formula hypothesis, not an expected improvement. Prior-shift recalibration was judged unnecessary (mean predicted
+PD 13.4% on the scoring file vs 13.5% observed in training).
+

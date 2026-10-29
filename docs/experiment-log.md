@@ -273,3 +273,13 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   report is from the earlier pipeline out-of-fold run; the saved `rw/oof` arrays used here give 81.8%. Both are
   out-of-fold; the scoring file gives 82.47%. The variant ranking is unchanged by this difference.
 - Public score of `cand_clean_unc1` (reported by Kish): 54.265 (`t25` 54.290, rule50 54.429); differences are within public noise (about 1.0).
+
+## Profit-formula refit to public scores (2026-10-29)
+- Eight public scores (t07 34.812, t12 47.159, t20 53.935, t25 54.290, t28 53.924, rule50 54.429, rule50_bag 54.370, unc1
+  54.265) fitted by least squares (one scale factor) against expected profit on the scoring file under about 40
+  formulas (gain: total interest or loan x interest rate; loss: fraction of the loan, or a fraction of the loan minus
+  0-24 monthly payments). Best: loss = 70% of (loan - 18 payments), RMS 0.162 vs 0.329 for loss = 50% of the loan;
+  interest-rate gain RMS 6.8. Selection-luck caveat: 8 points, about 40 formulas.
+- A rule built on the best fit (`cand_clean_fit70m18`, 83.51% approved) differs from rule50 on 1.6% of applicants;
+  predicted public effect about +-0.1 (below public noise). Not uploaded; see `submission-ledger.md`, candidate 10.
+
