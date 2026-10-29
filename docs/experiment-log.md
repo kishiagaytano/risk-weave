@@ -1,5 +1,9 @@
 # Experiment log (VFL, full 100K training rows)
 
+> Chronological record. Final model and policy: see `SOLUTION.md`. Earlier sections (for example the `no_rate` ensemble)
+> are superseded by the `clean` feature set but are kept unchanged for history.
+
+
 All runs: Python in SAS Studio on `CREDITr.ILINK_CREDITRISK_TRAINING`, 5-fold
 stratified CV, seed 20261028, out-of-fold (OOF) predictions. Calibration is an
 isotonic fit cross-fitted on the OOF scores. Machine-readable records live in

@@ -1,5 +1,11 @@
 # Model card: Risk Weave approval ensemble (candidate v1)
 
+> **Status (2026-10-29):** the final model is the `clean` 57-column ensemble with the per-loan expected-profit rule
+> (`cand_clean_rule50`, public 54.429). Sections below were written for the earlier `no_rate` candidate and the
+> cutoff probes and are kept for history; the up-to-date summary is `SOLUTION.md`, the group outcomes are in
+> `fairness-and-explainability.md`, and all numbers agree with `experiment-log.md`.
+
+
 ## Purpose and decision
 Decide, for each applicant in `ILINK_CREDITRISK_SCORING_PUBLIC`, whether to
 approve an iLink Capital Bank auto loan (`APPROVED` 1/0). The model estimates the

@@ -1,5 +1,10 @@
 # Submission ledger
 
+> **Status (2026-10-29):** best public score 54.429 (`cand_clean_rule50`); suggested finals `cand_clean_rule50` and
+> `cand_clean_t25`. Early table rows for `cand_t07/t12/t20` refer to the earlier `no_rate` model and were not uploaded.
+> SHA-256 checksums: `submission-checksums.md`.
+
+
 Records every candidate file and, once uploaded, its leaderboard result. No file
 has been uploaded to Kaggle yet. Candidate files stay in the VFL home folder and
 are never committed.
