@@ -159,3 +159,19 @@ cannot prove the formula. Remaining gain is estimated below 1 point and below pu
 noise (about 1.0). Suggested finals (Kish's choice): cand_clean_rule50 (54.429) and
 cand_clean_t25 (54.290), one rule-based and one cutoff-based file. No final selection
 has been made.
+
+## Probe 7: 10-seed bagged rule (reported by Kish on 2026-10-29)
+
+| Submission | Approval | Public score ($M) |
+|---|---|---|
+| cand_clean_rule50_bag (same rule as rule50, 10-seed averaged model) | 82.42% | 54.370 |
+| cand_clean_rule50 (single seed) | 82.47% | 54.429 (still the highest) |
+
+The bagged file scored 0.059 below the single-seed file. 616 of 100,000 applicants (0.62%) have
+different decisions, and the expected difference was 0 +-0.1 (seed spread about +-0.05 plus
+decision-set noise), so this is noise, not evidence that bagging hurts or that the single seed is
+better. The public ranking of the two files is not a reason to prefer one seed over another; the
+private 60% decides. Current public ranking of our files: rule50 54.429, rule50_bag 54.370, t25 54.290,
+t20 53.935, t28 53.924, t12 47.159, t07 34.812. Suggested finals unchanged: cand_clean_rule50 and
+cand_clean_t25 (a cutoff-based and a rule-based file); cand_clean_rule50_bag is an acceptable
+lower-variance substitute for rule50 if Kish prefers it. Final selection is Kish's choice.
