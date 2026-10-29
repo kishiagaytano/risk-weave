@@ -12,3 +12,6 @@ sample_submission.csv
 data/
 reports/oof/
 reports/submissions/
+
+# No CSV or competition data in the repo, ever (candidate submissions are tracked by checksum only)
+*.csv
