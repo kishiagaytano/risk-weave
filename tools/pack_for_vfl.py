@@ -16,7 +16,7 @@ from pathlib import Path
 # SAS wraps very long source lines, so the blob sits in a triple-quoted string
 # (newlines are ignored by b64decode).
 ORDER = ["__init__", "config", "data", "features", "models", "metrics", "cv",
-         "policy", "submission", "experiment_log", "run", "final"]
+         "policy", "submission", "experiment_log", "run", "final", "extra"]
 BOOT = '''
 import sys, types
 _mods = json.loads(_SRC)
