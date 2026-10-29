@@ -195,3 +195,35 @@ rule, not as model inputs. Clean-ensemble out-of-fold PD; profit in $M over 100K
 - Candidate file `cand_clean_rule50.csv` (per-loan rule, loss 0.5, clean model,
   approval 82.47%, 100,000 unique integer IDs) was generated in VFL; not downloaded,
   not uploaded.
+
+## Further optimisation attempts (2026-10-29): none beats the per-loan rule
+
+All out-of-fold on the full 100K training rows in VFL, same 5-fold CV and seed, clean 57
+model features (sensitive, proxy, timing-uncertain and pricing fields excluded). Profit in
+$M under a true loss of 40% / 50% / 60% of the loan (gain = total scheduled interest).
+Baseline = clean ensemble (LR + XGB d2 + XGB d3) with the per-loan rule at loss 0.5
+("rule50", public 54.429): 135.1 / 121.0 / 108.8 (best single cutoff 134.6 / 120.3 / 108.3;
+AUC 0.7987). Decision rows (`dec`) evaluate fixed decisions.
+
+| Idea | Result (40 / 50 / 60) | vs rule50 at loss 0.5 |
+|---|---|---|
+| Stacking (logistic meta-learner on base logits) | rule 135.1 / 121.0 / 108.7, AUC 0.7987 | 0.0 |
+| Profit-aware XGBoost (regress realised profit, approve if > 0) | 133.2 / 119.9 / 106.7 (ap 81.6%) | -1.1 |
+| Collateral-aware loss (loss fraction rises with LTV, mean 0.5, sd 0.083) | flat-0.5 truth 120.5; collateral truth 119.6 (flat rule 119.1) | -0.5 / +0.5 |
+| Stake-weighted XGBoost (weights = interest if repaid, 0.5 x amount if default) | 134.0 / 120.6 / 107.2 | -0.4 |
+| Stake-weighted logistic regression | 134.1 / 120.8 / 107.4 | -0.2 |
+| Blend of the two stake-weighted models | 134.4 / 121.1 / 107.7 | +0.1 (noise) |
+| 7 engineered ratio/interaction features (XGB d3 / LR AUC 0.7975 / 0.7974 vs 0.7975 / 0.797) | blend rule 135.1 / 120.9 / 108.5 vs same blend without them 135.1 / 121.0 / 108.8 | -0.1 |
+
+Engineered features: income gap (reported vs household), loan to income, payment after
+expenses, savings+checking buffer in months of payment, utilisation x DTI, DTI x LTV and a
+combined delinquency score; all built from clean fields only. Per-loan stake weights and the
+decision rule use LOAN_AMOUNT, LOAN_TERM and MONTHLY_PAYMENT (clean fields).
+
+Conclusion: every variant lands within about +-1 of 121.0 (and the only positive one, +0.1, is
+noise); at the fitted public scale (about 0.45) these differences are worth under +-0.5 on the
+public score, below its sampling noise (about 1.0). The model's ranking has saturated and the
+decision rule is already near optimal for the fitted formula, so these ideas do not justify
+another probe. Gains that would need the excluded fields were not tested. rw/experiment_log.jsonl
+has a summary record of these runs; OOF predictions are in rw/oof (profit_reg, xgb_w, lr_w,
+xgb_fe, lr_fe).
