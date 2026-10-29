@@ -134,10 +134,28 @@ about 1% of the estimated optimum.
 
 | File | Rule | Approval | Predicted public score |
 |---|---|---|---|
-| cand_clean_rule50.csv | per-loan expected profit, gain = total interest, loss = 50% of loan, clean-model PD | 82.47% | about 54.4-54.6 |
-| cand_clean_t28.csv | single PD cutoff 0.28, clean model | 87.03% | about 54.0-54.5 (flat vs 0.25) |
+| cand_clean_rule50.csv | per-loan expected profit, gain = total interest, loss = 50% of loan, clean-model PD | 82.47% | about 54.4-54.6 (actual 54.429) |
+| cand_clean_t28.csv | single PD cutoff 0.28, clean model | 87.03% | about 54.0-54.5 (actual 53.924) |
 
 Both were downloaded to the user's Downloads folder and validated (header
 `LOAN_ID,APPROVED`, 100,000 unique integer IDs, 0/1 only). Plan: upload rule50 first,
 then t28; stop there. Final selection (up to 2) is Kish's choice; suggested:
 cand_clean_t25 plus the better of rule50 and t28.
+
+## Probes 5 and 6 (reported by Kish on 2026-10-29)
+
+| Submission | Approval | Public score ($M) | Prediction |
+|---|---|---|---|
+| cand_clean_rule50 | 82.47% | **54.429** (best so far) | 54.4-54.6 |
+| cand_clean_t28 | 87.03% | 53.924 | 54.0-54.5 |
+
+Reading: the per-loan rule scored +0.139 over the best single cutoff (t25 = 54.290),
+inside the predicted range and matching the CV estimate (+0.2%). Cutoff 0.28 scored
+below 0.25 (-0.366), so the cutoff curve peaks near 0.25 as the CV table indicated;
+cutoffs above 0.25 only lose. The fitted formula (gain = total interest, loss about 50%
+of the loan, public scale about 0.45) predicted both results to within about 0.2-0.5,
+which supports its use for the final decision, although a two-to-six-point fit still
+cannot prove the formula. Remaining gain is estimated below 1 point and below public
+noise (about 1.0). Suggested finals (Kish's choice): cand_clean_rule50 (54.429) and
+cand_clean_t25 (54.290), one rule-based and one cutoff-based file. No final selection
+has been made.
