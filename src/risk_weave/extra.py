@@ -88,6 +88,15 @@ def rule_decisions(df, p, loss_fraction):
     return ((1 - p) * gain - p * loss) > 0
 
 
+def uncertainty_adjusted_pd(member_pds, k=1.0):
+    """Ensemble PD plus k standard deviations of the member PDs, clipped to [0, 1].
+
+    Members that disagree make the estimate less certain, so the adjusted PD is larger
+    exactly where the models disagree; with k = 0 it is the plain equal-weight mean."""
+    m = np.asarray(member_pds, float)
+    return np.clip(m.mean(axis=0) + k * m.std(axis=0), 0.0, 1.0)
+
+
 def profit_at(df, y, approved, lgd=0.5):
     return policy.realised_profit(df, y, approved, GAIN, lgd)
 

@@ -18,8 +18,11 @@ equal weights). Public scores were reported by Kish from the Kaggle submissions 
 | cand_clean_t28.csv | PD cutoff 0.28 | 87.03% | 53.924 | `55e5d612182eabaae042617781c37efe3d8a3d8f9b1375c91a478f2b2567ef47` |
 | cand_clean_rule50.csv | per-loan expected profit, loss 50% of loan | 82.47% | 54.429 | `2189c097ee2aa222599fc6d730e0ba696f64567ed3248d717c8f1f7b07670cd0` |
 | cand_clean_rule50_bag.csv | same rule, 10-seed averaged model | 82.42% | 54.370 | `01ec8aa389aca5d2ddca62754da4056e726ca6947c97968aa1e73a48e5cda87f` |
+| cand_clean_unc1.csv | per-loan expected profit (loss 50%) on an uncertainty-adjusted PD: ensemble PD + 1 x std of the three member PDs | 80.23% (scoring file) | not uploaded | `821d76d896fb4642e5eb304f5a7ac94be6a048c85d52ab1714cd6ef62cd6323a` |
 
 cand_clean_t30.csv (cutoff 0.30, 88.5% approved) exists only in the SAS Viya home folder (`rw/submissions`)
 and was neither downloaded nor uploaded, so it has no checksum here. The same files were downloaded to the
 user's `Downloads` folder, outside this repository. To re-verify a file on Windows:
 `certutil -hashfile <file> SHA256`.
+
+cand_clean_unc1.csv was built in VFL on 2026-10-29 (`rw/submissions`) and downloaded to `Downloads`; the SHA-256 above was computed on the downloaded file. Its approval rate is on the scoring file; on the out-of-fold training data (saved `rw/oof` arrays) the same rule approves 79.3%. Format check: header `LOAN_ID,APPROVED`, 100,000 rows, 100,000 unique integer IDs, only 0/1.

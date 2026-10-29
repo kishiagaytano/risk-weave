@@ -258,3 +258,18 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   616 applicants (0.62%) differ from rule50: 283 become approved, 333 become declined. Expected
   public-score change: about 0 (+-0.1), well inside noise. Seeds are not to be chosen by public score.
 - Logged also in rw/experiment_log.jsonl and rw/oof (bag4, bag_parts_A/B, score_pd_clean_bag10).
+
+## Second-final search: uncertainty-adjusted rule (2026-10-29)
+- Goal: replace `cand_clean_t25` as the second proposed final with a variant that differs from rule50 on about
+  2-8% of applicants. Evaluated in VFL on the saved out-of-fold arrays (`rw/oof`, files `lr_clean`, `xgb_d2_clean`,
+  `xgb_d3_clean`), loss fractions 0.3, 0.4, 0.5, 0.6, 0.7, gain = total interest, judged on mean and worst-case
+  efficiency (profit relative to the best at each loss fraction), approval and overlap. Full table in
+  `submission-ledger.md` (candidate 9).
+- Variants: rule with loss 0.4 / 0.6; PD + k x member std (k = 0.5, 1, 2); rule50 AND cutoff 0.30 / 0.35; member-weight
+  tweaks. Chosen: k = 1 (`cand_clean_unc1`): OOF approval 79.3%, profit 120.39 $M at loss 0.5 (rule50 120.92), mean
+  efficiency 0.9809, worst 0.9501 (t25: 0.9775 / 0.9490).
+- Built in VFL (`rw/submissions/cand_clean_unc1.csv`), validated, downloaded; code in
+  `extra.uncertainty_adjusted_pd` (tested). Note on figures: the 82.3% approval quoted for rule50 in the fairness
+  report is from the earlier pipeline out-of-fold run; the saved `rw/oof` arrays used here give 81.8%. Both are
+  out-of-fold; the scoring file gives 82.47%. The variant ranking is unchanged by this difference.
+

@@ -180,3 +180,37 @@ private 60% decides. Current public ranking of our files: rule50 54.429, rule50_
 t20 53.935, t28 53.924, t12 47.159, t07 34.812. Suggested finals unchanged: cand_clean_rule50 and
 cand_clean_t25 (a cutoff-based and a rule-based file); cand_clean_rule50_bag is an acceptable
 lower-variance substitute for rule50 if Kish prefers it. Final selection is Kish's choice.
+
+## Candidate 9: uncertainty-adjusted rule `cand_clean_unc1` (2026-10-29, not uploaded)
+
+Built to replace `cand_clean_t25` as the second proposed final (rule50 stays the first). Rule: approve when
+`(1 - p') x gain > p' x 0.5 x loan amount` with `p'` = equal-weight ensemble PD + 1 x the standard deviation of the three
+member PDs (clipped to [0, 1]); gain = monthly payment x term - loan amount. Members disagree most where the model is
+least sure, so those loans are held to a higher bar. No public score yet.
+
+Out-of-fold evaluation (saved `rw/oof` arrays, 100,000 training loans; efficiency = profit as a share of the best
+achievable at each loss fraction, loss fractions 0.3-0.7, gain = total interest):
+
+| Variant | OOF approval | Differs from rule50 | Profit at loss 0.5 ($M) | Mean efficiency | Worst efficiency |
+|---|---|---|---|---|---|
+| rule50 | 81.8% | 0 | 120.92 | 0.9834 | 0.9667 |
+| t25 | 83.6% | 4.6% | 120.33 | 0.9775 | 0.9490 |
+| rule, loss 0.4 | 86.6% | 4.9% | 119.72 | 0.9693 | 0.9078 |
+| rule, loss 0.6 | 77.5% | 4.3% | 120.09 | 0.9797 | 0.9384 |
+| uncertainty +0.5 sd | 80.6% | 1.2% | 120.73 | 0.9828 | 0.9589 |
+| **uncertainty +1 sd (`unc1`)** | **79.3%** | **2.5%** | **120.39** | **0.9809** | **0.9501** |
+| uncertainty +2 sd | 76.8% | 5.0% | 119.48 | 0.9750 | 0.9316 |
+| rule50 and PD < 0.30 / 0.35 | 81.6% / 81.8% | 0.2% / 0.0% | 120.93 / 120.92 | 0.9837 / 0.9835 | 0.9657 / 0.9667 |
+| member weights 0.2/0.4/0.4 (LR/XGB/XGB) | 81.7% | 0.6% | 120.81 | 0.9826 | 0.9658 |
+| member weights 0.5/0.25/0.25 | 81.9% | 0.7% | 120.66 | 0.9812 | 0.9628 |
+
+Reading: no variant beats rule50 under the fitted formula (it is the optimum of its own scenario), so the second final
+is chosen for diversification: among variants that differ from rule50 on 2-8% of applicants, `unc1` has the best mean
+efficiency and worst-case efficiency, and beats `t25` on both. Cost: lower approval than `t25` (80.2% vs 84.4% on the
+scoring file).
+
+Scoring-file facts (100,000 applicants): approvals rule50 82,469, unc1 80,234, t25 84,429. Applicants approved by A only /
+by B only: rule50 vs unc1 2,235 / 0 (unc1 is a strict subset of rule50); rule50 vs t25 1,293 / 3,253; unc1 vs t25 678 /
+4,873. The scoring-side member PDs reproduce the SHA-256 of `cand_clean_rule50` exactly, so the same members and rule
+were used for the scoring file as for the submitted rule50.
+

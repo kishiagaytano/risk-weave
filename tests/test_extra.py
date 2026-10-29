@@ -59,3 +59,14 @@ def test_weighted_oof_regressor_and_stack(synthetic):
     res = extra.summary(synthetic, yy, p=p)
     assert {"auc", "cut_0.5", "rule_0.5"} <= set(res)
     assert pytest is not None
+
+
+def test_uncertainty_adjusted_pd():
+    members = np.array([[0.10, 0.20, 0.90], [0.20, 0.20, 0.95], [0.30, 0.20, 1.00]])
+    mean = members.mean(axis=0)
+    assert np.allclose(extra.uncertainty_adjusted_pd(members, k=0), mean)
+    adj = extra.uncertainty_adjusted_pd(members, k=1)
+    assert adj[0] > mean[0]                      # members disagree -> more cautious
+    assert adj[1] == pytest.approx(mean[1])      # members agree -> unchanged
+    assert adj.max() <= 1.0                      # clipped to a probability
+

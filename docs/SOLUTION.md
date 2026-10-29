@@ -95,8 +95,10 @@ repository.
 ### 6. Why these final two submissions
 * **`cand_clean_rule50`** is the highest public score and has the highest cross-validated profit; it is the principled
   expected-profit policy.
-* **`cand_clean_t25`** is the best single-cutoff file (54.290) and a hedge: if the hidden metric penalises large or
-  risky loans differently from the fitted formula, a plain risk cutoff fails in a different way from the rule.
+* **`cand_clean_unc1`** (proposed second final, replacing `cand_clean_t25`) applies the same rule to a PD raised by one
+  standard deviation of the three member PDs. Out-of-fold, it has mean efficiency 0.981 and worst case 0.950 across loss
+  fractions 0.3-0.7 (`t25`: 0.978 / 0.949), differs from rule50 on 2.2% of applicants and approves 80.2% on the scoring
+  file. It has no public score. `cand_clean_t25` (54.290) stays as an alternate. See `final-submissions.md`.
 * The 10-seed bagged rule (54.370) is a lower-variance twin of `rule50`; the 0.06 gap to `rule50` is seed noise (only
   0.62% of decisions differ), so it is a valid substitute but was not preferred because it is not better.
 * Final selection on Kaggle is made by the participant.

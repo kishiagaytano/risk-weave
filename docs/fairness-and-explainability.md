@@ -1,7 +1,7 @@
 # Fairness and explainability report
 
 All numbers are aggregates from out-of-fold predictions of the final policy (clean ensemble + per-loan expected-profit
-rule, loss fraction 0.5) on the 100,000 training loans: overall approval 82.3% (82.5% on the scoring table), default
+rule, loss fraction 0.5) on the 100,000 training loans: overall approval 82.3% (from the earlier pipeline out-of-fold run; the saved `rw/oof` arrays give 81.8%, and the scoring table 82.5%), default
 rate 8.2% among approved loans versus 38.0% among declined loans (observed overall 13.5%). Sensitive attributes were
 **not** model inputs; they are used here only to audit outcomes.
 

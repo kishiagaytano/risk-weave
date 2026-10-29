@@ -15,14 +15,15 @@
 ## Current status (single source of truth)
 * Final model: clean 57-column ensemble (logistic regression + XGBoost depth 2 + depth 3), per-loan expected-profit
   rule with loss fraction 0.5. Cross-validated AUC 0.7987.
-* Best public score 54.429 (`cand_clean_rule50`); selected finals `cand_clean_rule50` and `cand_clean_t25` (54.290),
-  chosen by the participant (see `final-submissions.md`).
+* Best public score 54.429 (`cand_clean_rule50`); proposed finals `cand_clean_rule50` and `cand_clean_unc1` (second final; replaces `cand_clean_t25` = 54.290 as
+  of 2026-10-29; the selection is the participant's; see `final-submissions.md`).
 * Older statements in the model card and ledger that mention the `no_rate` ensemble or the 0.07 / 0.12 / 0.20 cutoff
   candidates describe earlier stages and are kept for history.
 
 ## Change history (newest first)
 | Date | Change |
 |---|---|
+| 2026-10-29 | New second final `cand_clean_unc1` (uncertainty-adjusted rule), variant comparison, `extra.uncertainty_adjusted_pd` |
 | 2026-10-29 | Final submissions document, reproducibility guide, detailed VFL walkthrough, VFL versions, importance analysis (permutation, gain, TreeSHAP), MIT license |
 | 2026-10-29 | Solution summary, VFL usage, fairness/explainability report, README rewrite, pipeline module, CI, pinned requirements, checksums |
 | 2026-10-29 | Seed bagging, further optimisation experiments (none improved the final policy), probes rule50 / t28 / bag recorded |
