@@ -281,5 +281,5 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   0-24 monthly payments). Best: loss = 70% of (loan - 18 payments), RMS 0.162 vs 0.329 for loss = 50% of the loan;
   interest-rate gain RMS 6.8. Selection-luck caveat: 8 points, about 40 formulas.
 - A rule built on the best fit (`cand_clean_fit70m18`, 83.51% approved) differs from rule50 on 1.6% of applicants;
-  predicted public effect about +-0.1 (below public noise). Not uploaded; see `submission-ledger.md`, candidate 10.
+  predicted public effect about +-0.1 (below public noise). Public score 54.463 (reported by Kish), +0.034 over rule50, consistent with the refit's prediction (+0.08) and not with the old formula's (-0.09); see `submission-ledger.md`, candidate 10.
 

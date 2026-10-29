@@ -16,7 +16,7 @@ CAS tables, a Model Studio baseline) and is packaged here as tested, reproducibl
 | Inputs | 57 "clean" columns: no race, gender, age or marital status; no interest rate; no proxy-prone or timing-uncertain fields |
 | Validation | 5-fold stratified cross-validation on 100,000 labelled loans: AUC 0.7987, well calibrated (ECE about 0.001-0.002) |
 | Decision | Approve when `(1 - PD) x interest > PD x 0.5 x loan amount` (per-loan expected profit) |
-| Best public score | **54.429** (`cand_clean_rule50`); proposed second final `cand_clean_unc1` (uncertainty-adjusted rule, public 54.265); former hedge `cand_clean_t25` = 54.290 |
+| Best public score | **54.463** (`cand_clean_fit70m18`: expected-profit rule with loss 0.7 x (loan - 18 payments), fitted to the public scores); `cand_clean_rule50` 54.429, `cand_clean_unc1` 54.265, `cand_clean_t25` 54.290 |
 | Fairness | Default rate among approved loans stays 6.2-10.2% across every demographic level; lowest approval ratios: state tier 0.83, employment 0.83, education 0.77 (details in `docs/fairness-and-explainability.md`) |
 
 The competition metric is withheld, so the profit assumptions (interest earned if repaid, a fraction of the
@@ -28,7 +28,8 @@ rule and cutoff; the model itself and its random seeds were not tuned to it.
 
 | File (not committed) | Rule | Approved | Public score |
 |---|---|---|---|
-| `cand_clean_rule50` | per-loan rule, loss 0.5 | 82.47% | **54.429** |
+| `cand_clean_fit70m18` | per-loan rule, loss 0.7 x (loan - 18 payments) | 83.51% | **54.463** |
+| `cand_clean_rule50` | per-loan rule, loss 0.5 | 82.47% | 54.429 |
 | `cand_clean_rule50_bag` | same rule, 10-seed average | 82.42% | 54.370 |
 | `cand_clean_t25` | PD < 0.25 | 84.43% | 54.290 |
 | `cand_clean_unc1` | rule on PD + 1 std of member PDs | 80.23% | 54.265 |

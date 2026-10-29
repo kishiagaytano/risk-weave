@@ -216,7 +216,7 @@ by B only: rule50 vs unc1 2,235 / 0 (unc1 is a strict subset of rule50); rule50 
 4,873. The scoring-side member PDs reproduce the SHA-256 of `cand_clean_rule50` exactly, so the same members and rule
 were used for the scoring file as for the submitted rule50.
 
-## Candidate 10: formula-refit rule `cand_clean_fit70m18` (2026-10-29, not uploaded)
+## Candidate 10: formula-refit rule `cand_clean_fit70m18` (2026-10-29, public score 54.463)
 
 **Why.** The first eight public scores (t07, t12, t20, t25, t28, rule50, rule50_bag, unc1) were refitted against about
 40 candidate profit formulas using expected profit on the scoring file from the predicted PDs (one scale factor per
@@ -251,4 +251,10 @@ formula versus 123.62 for rule50 and 123.81 for t25 (differences of 0.1%), and 1
 old formula. Expected change in public score is about +-0.1, far inside public noise (about 1.0), so this file is a test
 of the formula hypothesis, not an expected improvement. Prior-shift recalibration was judged unnecessary (mean predicted
 PD 13.4% on the scoring file vs 13.5% observed in training).
+
+**Public score (reported by Kish on 2026-10-29): 54.463**, the highest of our files: +0.034 over `cand_clean_rule50`
+(54.429), +0.173 over `cand_clean_t25` (54.290), +0.198 over `cand_clean_unc1` (54.265). The refitted formula predicted
++0.08 over rule50 (54.57 vs 54.49), so the sign and size are consistent with the hypothesis; the old formula predicted
+-0.09. A single +0.034 is still inside public noise (about 1.0), so it supports but does not prove the refitted loss
+formula; the private 60% decides.
 
