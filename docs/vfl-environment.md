@@ -29,7 +29,7 @@ Not installed in VFL: `shap`, LightGBM, CatBoost.
 The repository was developed and tested locally with the versions in `requirements-lock.txt`
 (numpy 2.5.4, pandas 3.1.0, scikit-learn 1.9.1, scipy 1.18.1, xgboost 3.4.1). VFL runs slightly older
 patch/minor releases (numpy 2.5.1, pandas 3.0.3, scikit-learn 1.9.0, xgboost 3.3.0). The package only uses stable
-APIs, and the 15 tests pass locally; the VFL runs reproduced the cross-validated AUC (0.7987) and the approval rates
+APIs, and the 16 tests pass locally; the VFL runs reproduced the cross-validated AUC (0.7987) and the approval rates
 recorded in the experiment log. Exact decision-for-decision equality between a local and a VFL run is not claimed:
 tree libraries may differ in the last decimals across versions, which can flip a handful of borderline loans.
 The submitted files are the ones produced in VFL; their SHA-256 values are in `submission-checksums.md`.

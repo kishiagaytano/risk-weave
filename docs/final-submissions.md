@@ -1,14 +1,14 @@
 # Final submissions and why
 
 **Status (2026-10-29).** Two files are proposed for final scoring; both come from the same model and differ only in the
-decision rule. The participant makes the selection on Kaggle (nothing has been selected or uploaded for the new file).
+decision rule. The participant makes the selection on Kaggle (this document does not record any selection).
 
 | | `cand_clean_rule50` (first final) | `cand_clean_unc1` (second final, proposed) | `cand_clean_t25` (former second final) |
 |---|---|---|---|
 | Decision rule | Approve when `(1 - PD) x interest > PD x 0.5 x loan` | Same rule on `PD' = PD + 1 x std of the three member PDs` | Approve when `PD < 0.25` |
 | Approved (scoring file) | 82.47% | 80.23% | 84.43% |
 | Approved (out-of-fold, saved `rw/oof` arrays) | 81.8% | 79.3% | 83.6% |
-| Public score (40% of test rows) | **54.429** | not uploaded | 54.290 |
+| Public score (40% of test rows) | **54.429** | 54.265 | 54.290 |
 | SHA-256 | `2189c097ee2aa222599fc6d730e0ba696f64567ed3248d717c8f1f7b07670cd0` | `821d76d896fb4642e5eb304f5a7ac94be6a048c85d52ab1714cd6ef62cd6323a` | `99315129c12c38173e8657f6658236fb0a859162393dc5d92324ee01bb6d7d63` |
 | Role | Primary: principled expected-profit policy | Diversifier: same rule, more cautious where the models disagree | Kept as an alternate; best single cutoff |
 
@@ -57,7 +57,7 @@ Source: `competition-rules-and-evaluation.md` (rules as read from the Overview/E
 * **Difference from the other files** (scoring file, applicants approved by A only / by B only): rule50 vs `unc1`
   2,235 / 0; rule50 vs `t25` 1,293 / 3,253; `unc1` vs `t25` 678 / 4,873.
 * **Cost, stated plainly.** Lower approval (80.2% versus 84.4% for `t25` and 82.5% for rule50), so slightly less access
-  to credit, and no public score yet. The loss fraction (0.5) remains inferred, not given.
+  to credit, and a public score of 54.265 (0.025 below `t25`, 0.164 below rule50; both gaps are within public noise of about 1.0). The loss fraction (0.5) remains inferred, not given.
 * **Former choice.** `t25` (public 54.290) stays as an alternate; it does not depend on any interest or loss assumption,
   so it fails differently if the hidden metric differs. Which second file to select is the participant's decision.
 
@@ -76,7 +76,7 @@ Source: `competition-rules-and-evaluation.md` (rules as read from the Overview/E
 The public score uses 40% of the test rows; the final ranking uses the other 60%. Differences below about 1 point are
 within sampling noise (estimated sd about 1.0), so the selection did **not** rely on small public gaps: the choice
 rests on the principled rule, cross-validated profit on all 100,000 labelled loans, and the robustness table across loss
-fractions. `unc1` has no public score; it was chosen on out-of-fold evidence only. No model hyper-parameters or random
+fractions. `unc1` was chosen on out-of-fold evidence before it had a public score; its public score (54.265) is within noise of `t25` (54.290) and rule50 (54.429) and was not used to tune it. No model hyper-parameters or random
 seeds were chosen using the public leaderboard; the public scores were used only to infer the shape of the metric (loss
 fraction) and to rank decision rules.
 

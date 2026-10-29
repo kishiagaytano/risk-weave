@@ -181,12 +181,14 @@ t20 53.935, t28 53.924, t12 47.159, t07 34.812. Suggested finals unchanged: cand
 cand_clean_t25 (a cutoff-based and a rule-based file); cand_clean_rule50_bag is an acceptable
 lower-variance substitute for rule50 if Kish prefers it. Final selection is Kish's choice.
 
-## Candidate 9: uncertainty-adjusted rule `cand_clean_unc1` (2026-10-29, not uploaded)
+## Candidate 9: uncertainty-adjusted rule `cand_clean_unc1` (2026-10-29, public score 54.265)
 
 Built to replace `cand_clean_t25` as the second proposed final (rule50 stays the first). Rule: approve when
 `(1 - p') x gain > p' x 0.5 x loan amount` with `p'` = equal-weight ensemble PD + 1 x the standard deviation of the three
 member PDs (clipped to [0, 1]); gain = monthly payment x term - loan amount. Members disagree most where the model is
-least sure, so those loans are held to a higher bar. No public score yet.
+least sure, so those loans are held to a higher bar.
+
+Public score (reported by Kish on 2026-10-29): **54.265**, versus 54.290 for `cand_clean_t25` and 54.429 for `cand_clean_rule50`. The gaps (0.025 to `t25`, 0.164 to rule50) are well inside public sampling noise (about 1.0), so the public score neither supports nor contradicts the out-of-fold ranking; the private 60% decides.
 
 Out-of-fold evaluation (saved `rw/oof` arrays, 100,000 training loans; efficiency = profit as a share of the best
 achievable at each loss fraction, loss fractions 0.3-0.7, gain = total interest):

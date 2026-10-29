@@ -23,7 +23,7 @@
 ## Change history (newest first)
 | Date | Change |
 |---|---|
-| 2026-10-29 | New second final `cand_clean_unc1` (uncertainty-adjusted rule), variant comparison, `extra.uncertainty_adjusted_pd` |
+| 2026-10-29 | Public score of `cand_clean_unc1` (54.265) recorded; new second final `cand_clean_unc1` (uncertainty-adjusted rule), variant comparison, `extra.uncertainty_adjusted_pd` |
 | 2026-10-29 | Final submissions document, reproducibility guide, detailed VFL walkthrough, VFL versions, importance analysis (permutation, gain, TreeSHAP), MIT license |
 | 2026-10-29 | Solution summary, VFL usage, fairness/explainability report, README rewrite, pipeline module, CI, pinned requirements, checksums |
 | 2026-10-29 | Seed bagging, further optimisation experiments (none improved the final policy), probes rule50 / t28 / bag recorded |

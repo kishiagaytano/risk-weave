@@ -16,7 +16,7 @@ CAS tables, a Model Studio baseline) and is packaged here as tested, reproducibl
 | Inputs | 57 "clean" columns: no race, gender, age or marital status; no interest rate; no proxy-prone or timing-uncertain fields |
 | Validation | 5-fold stratified cross-validation on 100,000 labelled loans: AUC 0.7987, well calibrated (ECE about 0.001-0.002) |
 | Decision | Approve when `(1 - PD) x interest > PD x 0.5 x loan amount` (per-loan expected profit) |
-| Best public score | **54.429** (`cand_clean_rule50`); proposed second final `cand_clean_unc1` (uncertainty-adjusted rule, not yet scored); former hedge `cand_clean_t25` = 54.290 |
+| Best public score | **54.429** (`cand_clean_rule50`); proposed second final `cand_clean_unc1` (uncertainty-adjusted rule, public 54.265); former hedge `cand_clean_t25` = 54.290 |
 | Fairness | Default rate among approved loans stays 6.2-10.2% across every demographic level; lowest approval ratios: state tier 0.83, employment 0.83, education 0.77 (details in `docs/fairness-and-explainability.md`) |
 
 The competition metric is withheld, so the profit assumptions (interest earned if repaid, a fraction of the
@@ -31,7 +31,7 @@ rule and cutoff; the model itself and its random seeds were not tuned to it.
 | `cand_clean_rule50` | per-loan rule, loss 0.5 | 82.47% | **54.429** |
 | `cand_clean_rule50_bag` | same rule, 10-seed average | 82.42% | 54.370 |
 | `cand_clean_t25` | PD < 0.25 | 84.43% | 54.290 |
-| `cand_clean_unc1` | rule on PD + 1 std of member PDs | 80.23% | not uploaded |
+| `cand_clean_unc1` | rule on PD + 1 std of member PDs | 80.23% | 54.265 |
 | `cand_clean_t20` | PD < 0.20 | 78.59% | 53.935 |
 | `cand_clean_t28` | PD < 0.28 | 87.03% | 53.924 |
 | `cand_clean_t12` | PD < 0.12 | 62.55% | 47.159 |
@@ -46,7 +46,7 @@ shared outside the competition).
 ```bash
 git clone https://github.com/kishiagaytano/risk-weave.git && cd risk-weave
 python -m venv .venv && .venv/Scripts/python -m pip install -r requirements-lock.txt   # Linux/macOS: .venv/bin/python
-python -m pytest -q          # 15 tests on synthetic data, no competition data needed
+python -m pytest -q          # 16 tests on synthetic data, no competition data needed
 ```
 
 Run the whole workflow on any train/scoring pair of frames:
@@ -88,7 +88,7 @@ Step-by-step instructions to re-run each stage are in `docs/vfl-usage.md`.
 | `LICENSE` | MIT |
 | `docs/INDEX.md` | Reading order and change history |
 | `src/risk_weave/` | Package: data, features, models, CV, policy, final fit, extra experiments, pipeline |
-| `tests/` | 15 tests on synthetic data |
+| `tests/` | 16 tests on synthetic data |
 | `tools/` | `pack_for_vfl.py` (VFL installer), VFL driver snippets |
 | `AGENTS.md`, `PROJECT_CONTEXT.md`, `instruction-decisions.md` | Project rules and decisions |
 

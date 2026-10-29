@@ -272,4 +272,4 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   `extra.uncertainty_adjusted_pd` (tested). Note on figures: the 82.3% approval quoted for rule50 in the fairness
   report is from the earlier pipeline out-of-fold run; the saved `rw/oof` arrays used here give 81.8%. Both are
   out-of-fold; the scoring file gives 82.47%. The variant ranking is unchanged by this difference.
-
+- Public score of `cand_clean_unc1` (reported by Kish): 54.265 (`t25` 54.290, rule50 54.429); differences are within public noise (about 1.0).

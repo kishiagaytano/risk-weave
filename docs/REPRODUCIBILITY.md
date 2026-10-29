@@ -22,7 +22,7 @@ What can be reproduced, from which inputs, with what tolerance, and what cannot 
 No seed was chosen using the public leaderboard.
 
 ## 3. Levels of reproduction
-1. **Tests (anywhere, seconds)**: `python -m pytest -q` runs 15 tests on a synthetic frame: format validation,
+1. **Tests (anywhere, seconds)**: `python -m pytest -q` runs 16 tests on a synthetic frame: format validation,
    integer IDs, feature sets exclude sensitive and proxy columns, policy maths, end-to-end `pipeline.run_all`.
    CI (GitHub Actions) runs the same tests on every push.
 2. **Pipeline on VFL (about 5-10 minutes)**: install the package and call `pipeline.run_all` (details in
@@ -51,7 +51,7 @@ No seed was chosen using the public leaderboard.
 ```bash
 git clone https://github.com/kishiagaytano/risk-weave.git && cd risk-weave
 python -m venv .venv && .venv/Scripts/python -m pip install -r requirements-lock.txt
-.venv/Scripts/python -m pytest -q          # expect 15 passed
+.venv/Scripts/python -m pytest -q          # expect 16 passed
 .venv/Scripts/python tools/pack_for_vfl.py --install > install_in_vfl.txt   # script to paste into SAS Studio
 ```
 Then follow `vfl-usage.md` inside SAS Viya for Learners and compare checksums.
