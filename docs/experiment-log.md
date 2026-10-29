@@ -299,3 +299,20 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   PD-improved file, so none was built. (The 0.7987 quoted elsewhere is from the pipeline run; these are the saved
   arrays.)
 
+## Richer loss shapes and probe design (2026-10-29)
+- Refit of the hidden formula on the 9 public scores with richer loss shapes (scoring file, expected profit from the
+  predicted PDs, one scale factor): payments-based `R x (loan - k x payment)` (A), default timing as a share of the term
+  `R x (loan - f x term x payment)` (T), recovery from vehicle value `R x (loan - k payments - rho x loan/LTV)` (C, median
+  vehicle value 1.12 x loan) and loss proportional to LTV (LV). Best RMS per family: A 0.149 (R 0.75, k 21), T 0.257, C 0.308,
+  LV 0.482; nested leave-one-out RMS: A 0.272, T 0.29, C 0.346, LV 0.522 (pooled 0.272). No richer shape beat the payments
+  form, so no new candidate was built. A different interest share is equivalent to a rescaling of the loss in the decision
+  rule and is absorbed by the scale factor. The leave-one-out RMS of family A depends on the grid (0.197 on the finer grid
+  in the earlier refit, 0.272 here), which shows how weakly 9 points constrain the shape.
+- Option-B probe files were built in VFL only (not downloaded, not uploaded), each changing 4,175 loans (5% of the 83,511
+  approved by `fit70m18`): `probe_term` (drop all 84-month loans), `probe_ltv` (drop highest LTV, >= 0.983), `probe_amt`
+  (drop largest loans, >= 38,450), `probe_dropline` (drop the approved loans closest to the break-even line),
+  `probe_addline` (approve the rejected loans closest to the line). Predicted public change under six fit-valley
+  formulas: term about -5.0 to -5.5, LTV about -2.0, amount about -5.7 to -5.8 (all formulas agree, so these probes would
+  carry little information), dropline -0.27 to -0.30 (-0.13 under the original formula), addline -0.30 to -0.34 (-0.52
+  under the original formula). Only the last two separate the old and refitted formulas.
+
