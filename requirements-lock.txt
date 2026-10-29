@@ -1,6 +1,7 @@
 # Exact versions of the local development environment (Python 3.12) used to run the tests.
 # The competition results were produced inside SAS Viya for Learners with the platform's own
-# Python 3.12 environment; its exact package versions were not recorded.
+# Python 3.12 environment; its versions were recorded on 2026-10-29 in docs/vfl-environment.md
+# (Python 3.12.12, numpy 2.5.1, pandas 3.0.3, scikit-learn 1.9.0, scipy 1.18.0, xgboost 3.3.0).
 joblib==1.6.0
 numpy==2.5.4
 pandas==3.1.0

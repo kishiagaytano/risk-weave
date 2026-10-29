@@ -82,6 +82,9 @@ Step-by-step instructions to re-run each stage are in `docs/vfl-usage.md`.
 | `docs/experiment-log.md` | Every experiment with metrics |
 | `docs/submission-ledger.md`, `docs/submission-checksums.md` | Candidate files, public scores, SHA-256 checksums |
 | `docs/competition-rules-and-evaluation.md`, `docs/sas-viya-observations.md` | Rules as read, data audit |
+| `docs/final-submissions.md` | The two selected files and the justification against the competition requirements |
+| `docs/REPRODUCIBILITY.md`, `docs/vfl-environment.md` | How to reproduce results; recorded VFL software versions |
+| `LICENSE` | MIT |
 | `docs/INDEX.md` | Reading order and change history |
 | `src/risk_weave/` | Package: data, features, models, CV, policy, final fit, extra experiments, pipeline |
 | `tests/` | 15 tests on synthetic data |
@@ -96,6 +99,12 @@ Step-by-step instructions to re-run each stage are in `docs/vfl-usage.md`.
   below about 1 point are within sampling noise; the final ranking uses the other 60% of the test data.
 - Education and employment status are legitimate credit inputs but produce lower approval ratios for some
   groups (education 0.77). This is disclosed, not corrected.
-- Package versions inside SAS Viya for Learners were not recorded; local tests use the pinned versions in
-  `requirements-lock.txt`.
-- No licence is set yet; the owner has not chosen one.
+- VFL package versions were recorded only on 2026-10-29, after the modelling runs (`docs/vfl-environment.md`); local tests
+  use the pinned versions in `requirements-lock.txt`.
+
+## License
+
+Code and documentation are released under the [MIT License](LICENSE) (copyright 2026 Kish).
+The license covers this repository only. The competition data (training and scoring tables, sample files, metadata)
+and the submission files are **not** covered, are not included here and may not be redistributed outside the
+competition; `.gitignore` excludes `*.csv`.
