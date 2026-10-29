@@ -317,3 +317,27 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   under the original formula). Only the last two separate the old and refitted formulas.
 - Public score of `cand_clean_fitA80k23` (reported by Kish, 2026-10-30): 54.373, 0.090 below `fit70m18`; predicted 0 +-0.05, so a further formula refinement is not supported.
 
+## Model-family blend search (2026-10-30)
+- Code: `src/risk_weave/blend.py` (tested locally on synthetic data, 5 tests; run once in VFL). Families on the 57 clean
+  columns, same 5 folds (seed 20261028): HistGradientBoosting depth 3 and 2, ExtraTrees, small MLP; random forest was not
+  run (ExtraTrees was already clearly weaker). Blends: every equal-weight subset of up to 4 of the 8 models (existing
+  logistic regression, XGBoost depth 2 and 3 plus the new ones) and a nested non-negative stack. Judged by out-of-fold AUC
+  and by realised profit on the labelled loans under loss = 0.7 x (loan - 18 payments) (main), 0.8 x (loan - 23 payments)
+  and 0.5 x loan. Acceptance rule fixed in advance: AUC +0.001 or profit +0.2 $M under the main formula, with the gain in
+  at least 4 of 5 folds.
+- Single-model out-of-fold AUC / realised profit under the main formula ($M): logistic 0.79643 / 123.19; XGBoost d2
+  0.79642 / 123.48; XGBoost d3 0.7968 / 123.99; HGB d2 0.79705 / 123.8; ExtraTrees 0.78778 / 119.21; MLP 0.79318 /
+  121.73. Current 3-member ensemble: 0.79823 / 123.77.
+- Best blends by AUC: logistic + XGB d3 + HGB d2 + MLP 0.79841 (+0.00018), logistic + XGB d3 + HGB d3 + MLP 0.79841,
+  stack 0.79839 (weights logistic 0.49, XGB d3 0.23, HGB d3 0.15, XGB d2 0.14, rest about 0): none close to +0.001, fold
+  wins 3-4 of 5. A different model family adds essentially nothing: the signal is smooth and additive, so every decent
+  model ranks loans the same way.
+- Only one item met the profit branch of the rule: XGBoost depth 3 alone (profit +0.22 $M, better in 4 of 5 folds) although its AUC is 0.0014 lower than the ensemble in
+  every fold. It was the maximum over about 160 candidate blends, so some gain of that size is expected by chance, and
+  evaluated with the ensemble's own probabilities its decisions are predicted 0.095 public points worse than
+  `cand_clean_fit70m18`. Judged to be selection noise, not an improvement. The candidate was nevertheless built, per the
+  agreed procedure, as `cand_clean_fit70m18_xgb3` (VFL only; not downloaded, not uploaded): rule of `fit70m18` on the
+  XGBoost depth 3 PDs, 83.54% approved (83,544); differs from `fit70m18` on 796 / 829 loans (fit70m18 only / candidate
+  only) and from `rule50` on 606 / 1,681; SHA-256 (VFL) `121e43da17d630d7821dafb41695f7367d6c96f9ccd0862f82d2044f25da928a`.
+- Conclusion: no model-family blend is worth an upload; the final pair (`fit70m18`, `rule50`) is unchanged.
+
