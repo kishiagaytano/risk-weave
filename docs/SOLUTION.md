@@ -19,7 +19,7 @@ management, access to credit, fairness and explainability. The exact formula is 
    transparent logistic regression, protected attributes and their proxies were excluded at no measurable cost, and
    group-level outcomes are reported.
 
-**Results.** Best public score **54.429** (`rule50`), hedge `cand_clean_t25` 54.290; cross-validated profit of the
+**Results.** Best public score **54.463** (`fit70m18`, loss refitted to the public scores; `rule50` 54.429), hedge `cand_clean_t25` 54.290; cross-validated profit of the
 rule is about 0.2% above the best single cutoff, and it beat every single cutoff on 100% of 400 random 60% resamples
 of the out-of-fold data (mean margin 0.57-1.1 $M of a 60K-loan subset against cutoffs 0.25-0.28).
 

@@ -283,3 +283,19 @@ hyperparameters and folds; per-loan rule at loss 0.5.
 - A rule built on the best fit (`cand_clean_fit70m18`, 83.51% approved) differs from rule50 on 1.6% of applicants;
   predicted public effect about +-0.1 (below public noise). Public score 54.463 (reported by Kish), +0.034 over rule50, consistent with the refit's prediction (+0.08) and not with the old formula's (-0.09); see `submission-ledger.md`, candidate 10.
 
+## Nine-point formula refit, refined candidates and spline member (2026-10-29)
+- With `cand_clean_fit70m18` scored (54.463), the formula fit was repeated on 9 public scores over a fine grid (loss =
+  R x (loan - k payments), R 0.55-0.85, k 9-30; plus a variant where defaulters pay k payments, loss = R x loan - k
+  payments). Best: R 0.80, k 23 (RMS 0.142; the old 50%-of-loan formula 0.310). The valley is flat: (0.85, 25) 0.146,
+  (0.75, 21) 0.149, (0.70, 18) 0.156, variant (0.9, 24) 0.161; R and k are not individually identified. Nested
+  leave-one-out RMS 0.197 vs 0.343 for the old formula (the gain is mostly on the restrictive cutoff files).
+- Candidates built in VFL only (not downloaded, not uploaded): `cand_clean_fitA80k23` (best refined formula, 83.67%
+  approved, 268 / 422 loans differ from `fit70m18`; predicted change about 0 +-0.05) and `cand_clean_fitA80k23u`
+  (same formula with PD + 1 std of member PDs, 81.55% approved, 2,018 / 61 loans differ; predicted 0.08-0.14 below
+  `fit70m18` under every formula). Neither is worth an upload; the loss-formula lever is used up with the current PDs.
+- Spline logistic member (C = 0.05, 5 knots) on the clean features, same folds, saved `rw/oof` arrays: spline alone AUC
+  0.79831; current 3-member ensemble 0.79823; spline + XGB depth 2 + depth 3: 0.79830; 4 members (LR + spline + two
+  XGB): 0.79868 (+0.00045); weighted 0.4 / 0.3 / 0.3: 0.79844. All below the +0.001 threshold set for building a new
+  PD-improved file, so none was built. (The 0.7987 quoted elsewhere is from the pipeline run; these are the saved
+  arrays.)
+
