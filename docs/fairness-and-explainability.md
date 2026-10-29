@@ -98,8 +98,39 @@ Excluding all of these removed no measurable predictive power, which is why the 
 * **Decision rule.** Every approval has a one-line reason: expected interest income exceeds expected loss given the
   applicant's predicted default probability and loan terms. Both sides of the inequality are in dollars and can be shown
   to a reviewer.
-* SHAP and permutation importance were not computed: SHAP is not installed in VFL, and the coefficient table plus
-  the Model Studio importances were judged sufficient for a model of this size.
+* **Global importance computed inside VFL** (aggregates only; nothing else left the platform). Stratified 80/20 split
+  of the 100,000 labelled loans (seed 20261028), the three ensemble members refitted on the 80%, evaluated on the 20%
+  holdout (ensemble AUC 0.7972). Values are per original input column (one-hot and missing-indicator columns are
+  summed back to their source column).
+
+| Rank | Permutation: AUC drop (mean of 3 shuffles, whole ensemble) | XGBoost gain share (mean of depth 2 and 3) | TreeSHAP share of mean abs. contribution (mean of depth 2 and 3, 5,000 holdout loans) |
+|---|---|---|---|
+| 1 | `REVOLVING_UTILIZATION` 0.0220 | `REVOLVING_UTILIZATION` 30.9% | `REVOLVING_UTILIZATION` 13.1% |
+| 2 | `RECENT_INQUIRIES_12M` 0.0129 | `DEBT_TO_INCOME` 21.1% | `DEBT_TO_INCOME` 9.8% |
+| 3 | `DEBT_TO_INCOME` 0.0096 | `RECENT_INQUIRIES_12M` 5.2% | `RECENT_INQUIRIES_12M` 8.2% |
+| 4 | `DOWN_PAYMENT_PCT` 0.0048 | `LOAN_TO_VALUE` 4.9% | `LOAN_TO_VALUE` 5.6% |
+| 5 | `LOAN_TO_VALUE` 0.0046 | `MISSED_PAYMENTS_12M` 4.6% | `THIN_FILE` 4.7% |
+| 6 | `FINANCIAL_LITERACY_SCORE` 0.0038 | `FINANCIAL_LITERACY_SCORE` 3.4% | `FINANCIAL_LITERACY_SCORE` 4.5% |
+| 7 | `LOAN_TERM` 0.0038 | `SAVINGS_BALANCE` 3.3% | `LOAN_TERM` 4.0% |
+| 8 | `DELINQ_60` 0.0033 | `DOWN_PAYMENT_PCT` 2.7% | `SAVINGS_BALANCE` 3.9% |
+| 9 | `DELINQ_90` 0.0032 | `INCOME_VOLATILITY` 2.3% | `MISSED_PAYMENTS_12M` 3.8% |
+| 10 | `MISSED_PAYMENTS_12M` 0.0020 | `DELINQ_90` 2.2% | `AUTO_PAY_FLAG` 3.3% |
+
+  Permutation importance sums to about 0.089 AUC across positive columns; 34 of the 57 inputs each cost less than
+  0.0005 AUC when shuffled. The three methods agree on the top three drivers (utilisation, debt-to-income, recent
+  inquiries) and on the general ranking of credit-history and loan-structure fields; they differ in the tail because
+  they measure different things (accuracy loss, split gain, average contribution to the log-odds).
+* **Method notes, stated honestly.**
+  * The `shap` package is not installed in VFL and was **not** used. The tree-model attributions above are XGBoost's
+    native TreeSHAP (`Booster.predict(..., pred_contribs=True)`), which computes exact tree Shapley values for the two
+    XGBoost members; the logistic-regression member is covered by its coefficients (table above), not by SHAP.
+  * SHAP values were not computed locally because the competition data may not leave VFL; the local repository holds
+    only the code, and the aggregate numbers here were copied from the VFL log (also saved in the VFL home folder as
+    `rw/importance_aggregates.json`).
+  * Importances come from a holdout refit (AUC 0.7972) rather than the final model fitted on all 100,000 rows; ranks
+    are expected to be the same, individual magnitudes will differ slightly. Permutation importance of correlated inputs
+    (for example `LOAN_AMOUNT` and `MONTHLY_PAYMENT`) understates each one, because the partner carries part of the signal.
+  * Importance describes the model's use of an input, not causation.
 
 ## 4. Limitations
 * The profit rule's loss fraction (50% of the loan) is inferred from public leaderboard scores, not given.

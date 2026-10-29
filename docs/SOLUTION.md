@@ -112,4 +112,4 @@ the lowest approval ratios (education 0.77, state tier 0.83, employment 0.83) ar
 * No time variable, so no out-of-time test; public/private rank shifts are expected for differences under about 1 point.
 * Some inputs (banking-relationship flags such as auto-pay, direct deposit) are strong predictors whose decision-time
   availability cannot be confirmed from the metadata.
-* Package versions inside VFL were not recorded.
+* VFL package versions were recorded on 2026-10-29 (`vfl-environment.md`), after the modelling runs; no upgrade was observed, but earlier runs cannot be proven to have used the identical image.
