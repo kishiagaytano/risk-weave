@@ -1,0 +1,9 @@
+# Runtime dependencies (compatible ranges). Exact versions used for the recorded results are in
+# requirements-lock.txt. Inside SAS Viya for Learners the same libraries are provided by the
+# platform's Python environment: pandas, numpy, scikit-learn, xgboost, scipy (no LightGBM,
+# CatBoost or SHAP there).
+numpy>=2.0
+pandas>=2.2
+scikit-learn>=1.5
+scipy>=1.13
+xgboost>=2.0

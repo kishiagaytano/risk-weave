@@ -3,7 +3,7 @@ name = "risk-weave"
 version = "0.1.0"
 description = "Credit-risk modeling and approval decisioning for the SAS Hackathon 2026 Student Track"
 requires-python = ">=3.12"
-dependencies = ["pandas", "numpy", "scikit-learn", "xgboost", "scipy"]
+dependencies = ["numpy>=2.0", "pandas>=2.2", "scikit-learn>=1.5", "scipy>=1.13", "xgboost>=2.0"]
 
 [project.optional-dependencies]
 dev = ["pytest", "matplotlib"]
