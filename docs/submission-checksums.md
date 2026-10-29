@@ -20,7 +20,7 @@ equal weights). Public scores were reported by Kish from the Kaggle submissions 
 | cand_clean_rule50_bag.csv | same rule, 10-seed averaged model | 82.42% | 54.370 | `01ec8aa389aca5d2ddca62754da4056e726ca6947c97968aa1e73a48e5cda87f` |
 | cand_clean_unc1.csv | per-loan expected profit (loss 50%) on an uncertainty-adjusted PD: ensemble PD + 1 x std of the three member PDs | 80.23% (scoring file) | 54.265 | `821d76d896fb4642e5eb304f5a7ac94be6a048c85d52ab1714cd6ef62cd6323a` |
 | cand_clean_fit70m18.csv | per-loan expected profit with loss = 70% of (loan - 18 monthly payments) | 83.51% (scoring file) | **54.463** (highest so far) | `f855bec552e1185cdabbd04e5f726926cff4b733ffe0866b058de2f555a81c9f` |
-| cand_clean_fitA80k23.csv | per-loan expected profit with loss = 80% of (loan - 23 monthly payments) | 83.67% (scoring file) | not uploaded | `e315da349df6126baed81ae269b796ae7a0685028da403e77e680bdbfda703d1` |
+| cand_clean_fitA80k23.csv | per-loan expected profit with loss = 80% of (loan - 23 monthly payments) | 83.67% (scoring file) | 54.373 | `e315da349df6126baed81ae269b796ae7a0685028da403e77e680bdbfda703d1` |
 
 cand_clean_t30.csv (cutoff 0.30, 88.5% approved) exists only in the SAS Viya home folder (`rw/submissions`)
 and was neither downloaded nor uploaded, so it has no checksum here. The same files were downloaded to the

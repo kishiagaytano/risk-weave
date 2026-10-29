@@ -2,7 +2,7 @@
 
 ## Reading order
 1. [`../README.md`](../README.md): landing page, results at a glance, quick start.
-2. [`final-submissions.md`](final-submissions.md): the two selected files and why.
+2. [`final-submissions.md`](final-submissions.md): the final pair and why; [`kaggle-description.md`](kaggle-description.md): submission text.
 3. [`SOLUTION.md`](SOLUTION.md): the solution for judges (one page plus detail).
 4. [`fairness-and-explainability.md`](fairness-and-explainability.md): group outcomes, excluded variables, coefficients, limitations.
 5. [`vfl-usage.md`](vfl-usage.md) (detailed VFL walkthrough), [`vfl-environment.md`](vfl-environment.md) (versions) and [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
@@ -15,14 +15,14 @@
 ## Current status (single source of truth)
 * Final model: clean 57-column ensemble (logistic regression + XGBoost depth 2 + depth 3), per-loan expected-profit
   rule with loss fraction 0.5. Cross-validated AUC 0.7987.
-* Best public score 54.463 (`cand_clean_fit70m18`, formula-refit rule); `cand_clean_rule50` 54.429; proposed finals `cand_clean_rule50` and `cand_clean_unc1` (second final; replaces `cand_clean_t25` = 54.290 as
-  of 2026-10-29; the selection is the participant's; see `final-submissions.md`).
+* Final pair (chosen 2026-10-30): `cand_clean_fit70m18` (public 54.463) and `cand_clean_rule50` (54.429); same PDs, loss 0.7 x (loan - 18 payments) vs 0.5 x loan; see `final-submissions.md`, text for Kaggle in `kaggle-description.md`.
 * Older statements in the model card and ledger that mention the `no_rate` ensemble or the 0.07 / 0.12 / 0.20 cutoff
   candidates describe earlier stages and are kept for history.
 
 ## Change history (newest first)
 | Date | Change |
 |---|---|
+| 2026-10-30 | Final pair locked: `fit70m18` + `rule50`; `fitA80k23` scored 54.373 (not selected); Kaggle description added |
 | 2026-10-29 | `cand_clean_fit70m18` (loss refitted to public scores) scores 54.463, highest of our files; nine-point refit and spline-member test recorded in the experiment log |
 | 2026-10-29 | Public score of `cand_clean_unc1` (54.265) recorded; new second final `cand_clean_unc1` (uncertainty-adjusted rule), variant comparison, `extra.uncertainty_adjusted_pd` |
 | 2026-10-29 | Final submissions document, reproducibility guide, detailed VFL walkthrough, VFL versions, importance analysis (permutation, gain, TreeSHAP), MIT license |

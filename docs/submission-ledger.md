@@ -258,7 +258,7 @@ PD 13.4% on the scoring file vs 13.5% observed in training).
 -0.09. A single +0.034 is still inside public noise (about 1.0), so it supports but does not prove the refitted loss
 formula; the private 60% decides.
 
-## Candidate 11: refined formula rule `cand_clean_fitA80k23` (2026-10-29, not uploaded)
+## Candidate 11: refined formula rule `cand_clean_fitA80k23` (2026-10-29, public score 54.373)
 
 Rule: approve when `(1 - PD) x total interest > PD x 0.8 x max(loan - 23 x monthly payment, 0)` (best of the nine-point
 refit, RMS 0.142; the fit valley is flat, see `experiment-log.md`), same ensemble PDs as rule50. Built in VFL,
@@ -276,4 +276,9 @@ Predicted public change versus `cand_clean_fit70m18` (54.463): +0.003 to +0.04 u
 -0.08 under the original 50%-of-loan formula; i.e. 0 +-0.05, inside public noise (about 1.0). On labelled training loans
 (out-of-fold PDs, realised outcomes) it earns 123.91 $M versus 124.11 for `fit70m18` under the best-fit formula. It is
 a replication test of the formula valley, not an expected improvement.
+
+**Public score (reported by Kish on 2026-10-30): 54.373**, i.e. 0.090 below `cand_clean_fit70m18` (54.463) and 0.056 below
+`cand_clean_rule50` (54.429); the prediction was 0 +-0.05 versus `fit70m18`. The result gives no support for further
+refining the loss formula (the fit valley is flat), and neither `fitA80k23` nor its uncertainty-adjusted variant is
+used. Final pair chosen on 2026-10-30: `cand_clean_fit70m18` and `cand_clean_rule50` (see `final-submissions.md`).
 

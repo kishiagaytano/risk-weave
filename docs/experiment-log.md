@@ -315,4 +315,5 @@ hyperparameters and folds; per-loan rule at loss 0.5.
   formulas: term about -5.0 to -5.5, LTV about -2.0, amount about -5.7 to -5.8 (all formulas agree, so these probes would
   carry little information), dropline -0.27 to -0.30 (-0.13 under the original formula), addline -0.30 to -0.34 (-0.52
   under the original formula). Only the last two separate the old and refitted formulas.
+- Public score of `cand_clean_fitA80k23` (reported by Kish, 2026-10-30): 54.373, 0.090 below `fit70m18`; predicted 0 +-0.05, so a further formula refinement is not supported.
 

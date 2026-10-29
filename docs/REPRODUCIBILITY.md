@@ -26,7 +26,7 @@ No seed was chosen using the public leaderboard.
    integer IDs, feature sets exclude sensitive and proxy columns, policy maths, end-to-end `pipeline.run_all`.
    CI (GitHub Actions) runs the same tests on every push.
 2. **Pipeline on VFL (about 5-10 minutes)**: install the package and call `pipeline.run_all` (details in
-   `vfl-usage.md`). Expected: cross-validated ensemble AUC 0.7987 and approval 82.5% for the rule.
+   `vfl-usage.md`). Expected: cross-validated ensemble AUC 0.7987 and approval 82.5% for `rule50` (83.5% for `fit70m18`; the final pair is described in `final-submissions.md`).
 3. **Byte-identical files**: compare SHA-256 values of the produced files with `submission-checksums.md`.
    Byte equality requires the VFL image versions of `vfl-environment.md`. On other versions the AUC reproduces to
    about the fourth decimal, but a handful of borderline loans (well under 1%) can flip.

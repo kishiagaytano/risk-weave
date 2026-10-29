@@ -19,7 +19,7 @@ management, access to credit, fairness and explainability. The exact formula is 
    transparent logistic regression, protected attributes and their proxies were excluded at no measurable cost, and
    group-level outcomes are reported.
 
-**Results.** Best public score **54.463** (`fit70m18`, loss refitted to the public scores; `rule50` 54.429), hedge `cand_clean_t25` 54.290; cross-validated profit of the
+**Results.** Final pair `fit70m18` (public **54.463**, loss refitted to the public scores) and `rule50` (54.429), hedge `cand_clean_t25` 54.290; cross-validated profit of the
 rule is about 0.2% above the best single cutoff, and it beat every single cutoff on 100% of 400 random 60% resamples
 of the out-of-fold data (mean margin 0.57-1.1 $M of a 60K-loan subset against cutoffs 0.25-0.28).
 
@@ -93,15 +93,14 @@ repository.
 | cutoff 0.07 | 43.98% | 34.812 | 78.6 |
 
 ### 6. Why these final two submissions
-* **`cand_clean_rule50`** is the highest public score and has the highest cross-validated profit; it is the principled
-  expected-profit policy.
-* **`cand_clean_unc1`** (proposed second final, replacing `cand_clean_t25`) applies the same rule to a PD raised by one
-  standard deviation of the three member PDs. Out-of-fold, it has mean efficiency 0.981 and worst case 0.950 across loss
-  fractions 0.3-0.7 (`t25`: 0.978 / 0.949), differs from rule50 on 2.2% of applicants and approves 80.2% on the scoring
-  file. Its public score is 54.265 (within noise of `t25`). `cand_clean_t25` (54.290) stays as an alternate. See `final-submissions.md`.
-* The 10-seed bagged rule (54.370) is a lower-variance twin of `rule50`; the 0.06 gap to `rule50` is seed noise (only
-  0.62% of decisions differ), so it is a valid substitute but was not preferred because it is not better.
-* Final selection on Kaggle is made by the participant.
+* Final pair (chosen 2026-10-30): **`cand_clean_fit70m18`** (public 54.463; loss 0.7 x (loan - 18 payments)) and
+  **`cand_clean_rule50`** (public 54.429; loss 0.5 x loan). Same PDs, different loss assumption.
+* The competition metric is unpublished, so the loss assumption is the main uncertainty. The refitted formula (fit to
+  nine public scores, RMS 0.14-0.16 against 0.31, nested leave-one-out 0.20-0.27 against 0.34) predicts `fit70m18`
+  slightly ahead; the original formula predicts `rule50` ahead. Holding both hedges the formula at almost no public-score
+  cost (they differ on 1.6% of applicants; approval 83.51% and 82.47% on the scoring file).
+* Not selected: `fitA80k23` 54.373, `rule50_bag` 54.370, `t25` 54.290, `unc1` 54.265. See `final-submissions.md`.
+* The Kaggle selection is made by the participant.
 
 ### 7. Responsible-lending evidence
 Group outcomes, excluded variables, proxy analysis, coefficients and limitations are in
